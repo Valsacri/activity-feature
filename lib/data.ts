@@ -11,6 +11,7 @@ export interface Person {
   hourlyRate: number
   email: string
   phone: string
+  provider?: string
 }
 
 export type EquipmentCategory = "venue" | "gear" | "transport" | "tech" | "furniture"
@@ -22,6 +23,7 @@ export interface Equipment {
   unitCost: number
   quantity: number
   description: string
+  provider?: string
 }
 
 export type FinancialCategory = "marketing" | "catering" | "insurance" | "permits" | "printing" | "misc"
@@ -32,6 +34,7 @@ export interface FinancialItem {
   category: FinancialCategory
   unitCost: number
   quantity: number
+  provider?: string
 }
 
 export type CommunicationType = "social-media" | "press" | "signage" | "email-campaign" | "live-stream"
@@ -41,10 +44,40 @@ export interface CommunicationItem {
   name: string
   type: CommunicationType
   cost: number
+  provider?: string
 }
 
 export type EventType = "tournament" | "program" | "session"
 export type EventStatus = "draft" | "planned" | "active" | "completed"
+
+export type SocialImpactAngle =
+  | "health-wellbeing"
+  | "youth-empowerment"
+  | "social-inclusion-diversity"
+  | "community-building"
+  | "grassroots-sports-development"
+  | "employment-economic-opportunity"
+  | "gender-equity-in-sport"
+  | "urban-safe-public-spaces"
+  | "peace-fair-play-social-cohesion"
+  | "education-through-sport"
+  | "environmental-responsibility"
+  | "partnerships-for-impact"
+
+export const SOCIAL_IMPACT_ANGLES: { value: SocialImpactAngle; label: string; description: string }[] = [
+  { value: "health-wellbeing", label: "Health & Well-Being", description: "Promoting physical and mental health through active participation in sport." },
+  { value: "youth-empowerment", label: "Youth Empowerment", description: "Developing leadership, confidence, and life skills among young people." },
+  { value: "social-inclusion-diversity", label: "Social Inclusion & Diversity", description: "Creating equal opportunities for all regardless of background." },
+  { value: "community-building", label: "Community Building", description: "Strengthening social bonds and local community ties through shared experiences." },
+  { value: "grassroots-sports-development", label: "Grassroots Sports Development", description: "Growing sport participation at the local and amateur level." },
+  { value: "employment-economic-opportunity", label: "Employment & Economic Opportunity", description: "Creating jobs and economic activity through event operations." },
+  { value: "gender-equity-in-sport", label: "Gender Equity in Sport", description: "Advancing equal representation and opportunity across genders." },
+  { value: "urban-safe-public-spaces", label: "Urban & Safe Public Spaces", description: "Activating public spaces and making urban areas safer through sport." },
+  { value: "peace-fair-play-social-cohesion", label: "Peace, Fair Play & Social Cohesion", description: "Using sport to build trust, respect, and peaceful coexistence." },
+  { value: "education-through-sport", label: "Education Through Sport", description: "Leveraging sport as a vehicle for learning and personal development." },
+  { value: "environmental-responsibility", label: "Environmental Responsibility", description: "Minimizing environmental impact and promoting sustainability." },
+  { value: "partnerships-for-impact", label: "Partnerships for Impact", description: "Building cross-sector partnerships to amplify social outcomes." },
+]
 
 export interface SportEvent {
   id: string
@@ -61,6 +94,14 @@ export interface SportEvent {
   assignedFinancials: string[]
   assignedCommunication: string[]
   sponsorshipId?: string
+  // Event project wizard fields
+  mission?: string
+  targetAudience?: string
+  expectedImpact?: string
+  valueProposition?: string
+  socialImpactAngles?: SocialImpactAngle[]
+  expectedAttendance?: number
+  createdAt?: string
 }
 
 export type SponsorTier = "platinum" | "gold" | "silver" | "bronze"
@@ -106,40 +147,40 @@ export interface SponsorshipProposal {
 // ==========================================
 
 export const initialPeople: Person[] = [
-  { id: "p1", name: "Sarah Mitchell", role: "coordinator", hourlyRate: 45, email: "sarah@sportorg.com", phone: "+1 555-0101" },
-  { id: "p2", name: "James Rodriguez", role: "coach", hourlyRate: 55, email: "james@sportorg.com", phone: "+1 555-0102" },
-  { id: "p3", name: "Emily Chen", role: "medic", hourlyRate: 60, email: "emily@sportorg.com", phone: "+1 555-0103" },
-  { id: "p4", name: "Marcus Johnson", role: "security", hourlyRate: 35, email: "marcus@sportorg.com", phone: "+1 555-0104" },
-  { id: "p5", name: "Lisa Park", role: "volunteer", hourlyRate: 15, email: "lisa@sportorg.com", phone: "+1 555-0105" },
-  { id: "p6", name: "David Thompson", role: "referee", hourlyRate: 50, email: "david@sportorg.com", phone: "+1 555-0106" },
-  { id: "p7", name: "Ana Gutierrez", role: "coordinator", hourlyRate: 45, email: "ana@sportorg.com", phone: "+1 555-0107" },
-  { id: "p8", name: "Ryan O'Brien", role: "volunteer", hourlyRate: 15, email: "ryan@sportorg.com", phone: "+1 555-0108" },
-  { id: "p9", name: "Priya Sharma", role: "coach", hourlyRate: 55, email: "priya@sportorg.com", phone: "+1 555-0109" },
-  { id: "p10", name: "Tom Baker", role: "security", hourlyRate: 35, email: "tom@sportorg.com", phone: "+1 555-0110" },
+  { id: "p1", name: "Sarah Mitchell", role: "coordinator", hourlyRate: 45, email: "sarah@sportorg.com", phone: "+1 555-0101", provider: "SportOrg Events" },
+  { id: "p2", name: "James Rodriguez", role: "coach", hourlyRate: 55, email: "james@sportorg.com", phone: "+1 555-0102", provider: "Elite Coaching Co." },
+  { id: "p3", name: "Emily Chen", role: "medic", hourlyRate: 60, email: "emily@sportorg.com", phone: "+1 555-0103", provider: "MedTeam Inc." },
+  { id: "p4", name: "Marcus Johnson", role: "security", hourlyRate: 35, email: "marcus@sportorg.com", phone: "+1 555-0104", provider: "SecureEvents Ltd." },
+  { id: "p5", name: "Lisa Park", role: "volunteer", hourlyRate: 15, email: "lisa@sportorg.com", phone: "+1 555-0105", provider: "Community Volunteers" },
+  { id: "p6", name: "David Thompson", role: "referee", hourlyRate: 50, email: "david@sportorg.com", phone: "+1 555-0106", provider: "Officials Association" },
+  { id: "p7", name: "Ana Gutierrez", role: "coordinator", hourlyRate: 45, email: "ana@sportorg.com", phone: "+1 555-0107", provider: "SportOrg Events" },
+  { id: "p8", name: "Ryan O'Brien", role: "volunteer", hourlyRate: 15, email: "ryan@sportorg.com", phone: "+1 555-0108", provider: "Community Volunteers" },
+  { id: "p9", name: "Priya Sharma", role: "coach", hourlyRate: 55, email: "priya@sportorg.com", phone: "+1 555-0109", provider: "Elite Coaching Co." },
+  { id: "p10", name: "Tom Baker", role: "security", hourlyRate: 35, email: "tom@sportorg.com", phone: "+1 555-0110", provider: "SecureEvents Ltd." },
 ]
 
 export const initialEquipment: Equipment[] = [
-  { id: "e1", name: "Main Stadium Rental", category: "venue", unitCost: 5000, quantity: 1, description: "Full-day stadium rental with seating for 2000" },
-  { id: "e2", name: "Indoor Court Rental", category: "venue", unitCost: 800, quantity: 2, description: "Basketball/volleyball court per day" },
-  { id: "e3", name: "Soccer Ball Set (20)", category: "gear", unitCost: 300, quantity: 1, description: "Professional match-quality soccer balls" },
-  { id: "e4", name: "Basketball Set (15)", category: "gear", unitCost: 250, quantity: 1, description: "Official game basketballs" },
-  { id: "e5", name: "Team Bus Charter", category: "transport", unitCost: 600, quantity: 2, description: "50-seat charter bus for the day" },
-  { id: "e6", name: "Sound System", category: "tech", unitCost: 1200, quantity: 1, description: "PA system with microphones and speakers" },
-  { id: "e7", name: "Scoreboard Display", category: "tech", unitCost: 800, quantity: 2, description: "LED digital scoreboard" },
-  { id: "e8", name: "Folding Tables (10-pack)", category: "furniture", unitCost: 150, quantity: 3, description: "6-foot folding tables for registration/catering" },
-  { id: "e9", name: "Folding Chairs (50-pack)", category: "furniture", unitCost: 200, quantity: 4, description: "Standard event folding chairs" },
-  { id: "e10", name: "First Aid Kit (Pro)", category: "gear", unitCost: 120, quantity: 2, description: "Professional sports first aid kit" },
+  { id: "e1", name: "Main Stadium Rental", category: "venue", unitCost: 5000, quantity: 1, description: "Full-day stadium rental with seating for 2000", provider: "StadiumCo" },
+  { id: "e2", name: "Indoor Court Rental", category: "venue", unitCost: 800, quantity: 2, description: "Basketball/volleyball court per day", provider: "City Sports Center" },
+  { id: "e3", name: "Soccer Ball Set (20)", category: "gear", unitCost: 300, quantity: 1, description: "Professional match-quality soccer balls", provider: "RentAll Sports" },
+  { id: "e4", name: "Basketball Set (15)", category: "gear", unitCost: 250, quantity: 1, description: "Official game basketballs", provider: "RentAll Sports" },
+  { id: "e5", name: "Team Bus Charter", category: "transport", unitCost: 600, quantity: 2, description: "50-seat charter bus for the day", provider: "Metro Transit Charters" },
+  { id: "e6", name: "Sound System", category: "tech", unitCost: 1200, quantity: 1, description: "PA system with microphones and speakers", provider: "AV Solutions" },
+  { id: "e7", name: "Scoreboard Display", category: "tech", unitCost: 800, quantity: 2, description: "LED digital scoreboard", provider: "AV Solutions" },
+  { id: "e8", name: "Folding Tables (10-pack)", category: "furniture", unitCost: 150, quantity: 3, description: "6-foot folding tables for registration/catering", provider: "Event Furnishings" },
+  { id: "e9", name: "Folding Chairs (50-pack)", category: "furniture", unitCost: 200, quantity: 4, description: "Standard event folding chairs", provider: "Event Furnishings" },
+  { id: "e10", name: "First Aid Kit (Pro)", category: "gear", unitCost: 120, quantity: 2, description: "Professional sports first aid kit", provider: "MedTeam Inc." },
 ]
 
 export const initialFinancials: FinancialItem[] = [
-  { id: "f1", name: "Social Media Ad Campaign", category: "marketing", unitCost: 500, quantity: 1 },
-  { id: "f2", name: "Print Flyers (500 pcs)", category: "printing", unitCost: 150, quantity: 2 },
-  { id: "f3", name: "Catering - Lunch Buffet", category: "catering", unitCost: 25, quantity: 100 },
-  { id: "f4", name: "Event Insurance", category: "insurance", unitCost: 1200, quantity: 1 },
-  { id: "f5", name: "City Event Permit", category: "permits", unitCost: 350, quantity: 1 },
-  { id: "f6", name: "Trophies & Medals", category: "misc", unitCost: 80, quantity: 10 },
-  { id: "f7", name: "Banners & Signage", category: "printing", unitCost: 200, quantity: 4 },
-  { id: "f8", name: "Photographer", category: "marketing", unitCost: 400, quantity: 1 },
+  { id: "f1", name: "Social Media Ad Campaign", category: "marketing", unitCost: 500, quantity: 1, provider: "MediaBuzz Agency" },
+  { id: "f2", name: "Print Flyers (500 pcs)", category: "printing", unitCost: 150, quantity: 2, provider: "PrintHouse" },
+  { id: "f3", name: "Catering - Lunch Buffet", category: "catering", unitCost: 25, quantity: 100, provider: "FreshBite Catering" },
+  { id: "f4", name: "Event Insurance", category: "insurance", unitCost: 1200, quantity: 1, provider: "CityInsure" },
+  { id: "f5", name: "City Event Permit", category: "permits", unitCost: 350, quantity: 1, provider: "City Hall" },
+  { id: "f6", name: "Trophies & Medals", category: "misc", unitCost: 80, quantity: 10, provider: "Trophy World" },
+  { id: "f7", name: "Banners & Signage", category: "printing", unitCost: 200, quantity: 4, provider: "PrintHouse" },
+  { id: "f8", name: "Photographer", category: "marketing", unitCost: 400, quantity: 1, provider: "LensCapture Studio" },
 ]
 
 export const initialCommunication: CommunicationItem[] = [
