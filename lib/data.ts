@@ -184,12 +184,12 @@ export const initialFinancials: FinancialItem[] = [
 ]
 
 export const initialCommunication: CommunicationItem[] = [
-  { id: "c1", name: "Instagram Campaign", type: "social-media", cost: 300 },
-  { id: "c2", name: "Facebook Event Promotion", type: "social-media", cost: 200 },
-  { id: "c3", name: "Local Press Release", type: "press", cost: 150 },
-  { id: "c4", name: "Event Banner Set", type: "signage", cost: 450 },
-  { id: "c5", name: "Email Newsletter Blast", type: "email-campaign", cost: 100 },
-  { id: "c6", name: "YouTube Live Stream", type: "live-stream", cost: 800 },
+  { id: "c1", name: "Instagram Campaign", type: "social-media", cost: 300, provider: "MediaBuzz Agency" },
+  { id: "c2", name: "Facebook Event Promotion", type: "social-media", cost: 200, provider: "MediaBuzz Agency" },
+  { id: "c3", name: "Local Press Release", type: "press", cost: 150, provider: "PR Newswire" },
+  { id: "c4", name: "Event Banner Set", type: "signage", cost: 450, provider: "PrintHouse" },
+  { id: "c5", name: "Email Newsletter Blast", type: "email-campaign", cost: 100, provider: "EmailMarketing Plus" },
+  { id: "c6", name: "YouTube Live Stream", type: "live-stream", cost: 800, provider: "StreamTech Pro" },
 ]
 
 export const initialEvents: SportEvent[] = [

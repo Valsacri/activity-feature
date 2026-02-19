@@ -9,16 +9,6 @@ import { StatusBadge } from "@/components/status-badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog"
 import {
   Select,
   SelectContent,
@@ -49,26 +39,9 @@ const typeIcons: Record<EventType, string> = {
 const formatCurrency = (val: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(val)
 
-const emptyEvent: Omit<SportEvent, "id"> = {
-  name: "",
-  type: "tournament",
-  sport: "",
-  startDate: "",
-  endDate: "",
-  location: "",
-  description: "",
-  status: "draft",
-  assignedPeople: [],
-  assignedEquipment: [],
-  assignedFinancials: [],
-  assignedCommunication: [],
-}
-
 export default function EventsPage() {
-  const { state, dispatch } = useAppStore()
+  const { state } = useAppStore()
   const { events, people, equipment, financials, communication } = state
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [form, setForm] = useState<Omit<SportEvent, "id">>(emptyEvent)
   const [filterType, setFilterType] = useState<EventType | "all">("all")
   const [filterStatus, setFilterStatus] = useState<EventStatus | "all">("all")
   const [searchQuery, setSearchQuery] = useState("")
@@ -80,13 +53,6 @@ export default function EventsPage() {
     return true
   })
 
-  const handleCreate = () => {
-    if (!form.name.trim()) return
-    dispatch({ type: "ADD_EVENT", payload: { id: `ev${Date.now()}`, ...form } })
-    setDialogOpen(false)
-    setForm(emptyEvent)
-  }
-
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -94,9 +60,11 @@ export default function EventsPage() {
           <h1 className="text-3xl font-bold font-display tracking-tight text-balance">Events</h1>
           <p className="text-muted-foreground mt-1">Manage tournaments, programs, and training sessions.</p>
         </div>
-        <Button onClick={() => { setForm(emptyEvent); setDialogOpen(true) }} className="gap-1.5">
-          <Plus className="h-4 w-4" />
-          Create Event
+        <Button asChild className="gap-1.5">
+          <Link href="/events/create">
+            <Plus className="h-4 w-4" />
+            Create Event
+          </Link>
         </Button>
       </div>
 
@@ -206,63 +174,6 @@ export default function EventsPage() {
           <p className="text-sm text-muted-foreground mt-1">Try adjusting your filters or create a new event.</p>
         </div>
       )}
-
-      {/* Create Event Dialog */}
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-lg">
-          <DialogHeader>
-            <DialogTitle>Create Event</DialogTitle>
-            <DialogDescription>Set up a new sport event. You can assign resources and manage the budget after creating it.</DialogDescription>
-          </DialogHeader>
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="ev-name">Event Name</Label>
-              <Input id="ev-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="e.g. City Cup Tournament" />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-2">
-                <Label>Type</Label>
-                <Select value={form.type} onValueChange={(val: EventType) => setForm({ ...form, type: val })}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {eventTypes.map((t) => (
-                      <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="ev-sport">Sport</Label>
-                <Input id="ev-sport" value={form.sport} onChange={(e) => setForm({ ...form, sport: e.target.value })} placeholder="e.g. Football" />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="ev-start">Start Date</Label>
-                <Input id="ev-start" type="date" value={form.startDate} onChange={(e) => setForm({ ...form, startDate: e.target.value })} />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="ev-end">End Date</Label>
-                <Input id="ev-end" type="date" value={form.endDate} onChange={(e) => setForm({ ...form, endDate: e.target.value })} />
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="ev-location">Location</Label>
-              <Input id="ev-location" value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} placeholder="Venue or address" />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="ev-desc">Description</Label>
-              <Textarea id="ev-desc" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Brief description of the event" rows={3} />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
-            <Button onClick={handleCreate} disabled={!form.name.trim() || !form.startDate || !form.endDate}>
-              Create Event
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   )
 }

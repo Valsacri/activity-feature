@@ -4,7 +4,7 @@ import { use, useState } from "react"
 import Link from "next/link"
 import { ArrowLeft, Calendar, MapPin, Clock, Users, Wrench, DollarSign, Megaphone, X, Pencil } from "lucide-react"
 import { useAppStore } from "@/lib/store"
-import { calculateEventBudget, type SportEvent, type EventStatus } from "@/lib/data"
+import { calculateEventBudget, type SportEvent, type EventStatus, SOCIAL_IMPACT_ANGLES } from "@/lib/data"
 import { StatusBadge } from "@/components/status-badge"
 import { BudgetSummary } from "@/components/budget-summary"
 import { ResourceSelector } from "@/components/resource-selector"
@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Badge } from "@/components/ui/badge"
 import {
   Select,
   SelectContent,
@@ -163,7 +164,39 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      {/* Mission & Social Impact Section */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        {event.mission && (
+          <div className="lg:col-span-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Mission & Value Proposition</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-card-foreground leading-relaxed">{event.mission}</p>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {event.socialImpactAngles && event.socialImpactAngles.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Social Impact Angles</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {event.socialImpactAngles.map((angle) => {
+                const angleData = SOCIAL_IMPACT_ANGLES.find((a) => a.value === angle)
+                return (
+                  <Badge key={angle} variant="secondary" className="block w-full text-center py-1.5">
+                    {angleData?.label}
+                  </Badge>
+                )
+              })}
+            </CardContent>
+          </Card>
+        )}
+      </div>
         {/* Main Content - Resource Assignment Tabs */}
         <div className="lg:col-span-2 flex flex-col gap-6">
           <Tabs defaultValue="people">
