@@ -5,13 +5,13 @@ import { ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Person, Equipment, FinancialItem, CommunicationItem } from "@/lib/data"
-import { EventBasicsStep } from "./steps/event-basics"
-import { StaffRefsStep } from "./steps/staff-refs"
-import { FacilitiesEquipmentStep } from "./steps/facilities-equipment"
-import { AdvertisingCommsStep } from "./steps/advertising-comms"
-import { BudgetFinancialsStep } from "./steps/budget-financials"
-import { SocialImpactStep } from "./steps/social-impact"
-import { ReviewSummaryStep } from "./steps/review-summary"
+import { EventBasicsStep } from "./event-wizard/steps/event-basics"
+import { StaffRefsStep } from "./event-wizard/steps/staff-refs"
+import { FacilitiesEquipmentStep } from "./event-wizard/steps/facilities-equipment"
+import { AdvertisingCommsStep } from "./event-wizard/steps/advertising-comms"
+import { BudgetFinancialsStep } from "./event-wizard/steps/budget-financials"
+import { SocialImpactStep } from "./event-wizard/steps/social-impact"
+import { ReviewSummaryStep } from "./event-wizard/steps/review-summary"
 
 const STEPS = [
   { id: 1, label: "Event Basics", description: "Name, dates, location, and mission" },
@@ -146,7 +146,7 @@ export function EventWizard({
       <div className="flex items-center justify-between gap-3">
         <Button
           variant="outline"
-          onClick={handleCancel}
+          onClick={onCancel}
         >
           Cancel
         </Button>

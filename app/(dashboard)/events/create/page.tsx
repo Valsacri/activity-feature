@@ -6,11 +6,11 @@ import { ChevronLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { EventWizard } from "@/components/event-wizard"
 import { initialEvents, initialPeople, initialEquipment, initialFinancials, initialCommunication } from "@/lib/data"
-import { useStore } from "@/lib/store"
+import { useAppStore } from "@/lib/store"
 
 export default function CreateEventPage() {
   const router = useRouter()
-  const { addEvent } = useStore()
+  const { state, dispatch } = useAppStore()
   const [currentStep, setCurrentStep] = useState(0)
 
   const handleComplete = (eventData: any) => {
@@ -24,7 +24,7 @@ export default function CreateEventPage() {
       assignedCommunication: eventData.selectedCommunication || [],
       createdAt: new Date().toISOString(),
     }
-    addEvent(newEvent)
+    dispatch({ type: "ADD_EVENT", payload: newEvent })
     router.push("/events")
   }
 
@@ -54,10 +54,10 @@ export default function CreateEventPage() {
           onStepChange={setCurrentStep}
           onComplete={handleComplete}
           onCancel={handleCancel}
-          people={initialPeople}
-          equipment={initialEquipment}
-          financials={initialFinancials}
-          communication={initialCommunication}
+          people={state.people}
+          equipment={state.equipment}
+          financials={state.financials}
+          communication={state.communication}
         />
       </div>
     </div>
